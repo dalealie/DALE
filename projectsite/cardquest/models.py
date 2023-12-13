@@ -1,23 +1,20 @@
 from django.db import models
 
-# Create your models here.
 class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta: 
+
+    class Meta:
         abstract = True
-        
-    
+
 class Trainer(BaseModel):
-    name = models.CharField(max_length=100, null=True, blank=True)
-    birthdate =models.DateField(null=True, blank=True)
-    location = models.CharField(max_length=250, null=True, blank=True) 
+    name = models.CharField(max_length=10, null=True, blank=True)
+    birthdate = models.DateField(null=True, blank=True)
+    location = models.CharField(max_length=250, null=True, blank=True)
     email = models.EmailField(max_length=100, null=True, blank=True)
-    
-    def __str__(self) -> str:
+
+    def __str__(self):
         return self.name
-    
     
 class PokemonCard(BaseModel):
     RARITY_CHOICES = (
@@ -46,23 +43,21 @@ class PokemonCard(BaseModel):
         ('Fairy', 'Fairy'),
     )
     name = models.CharField(max_length=100, null=True, blank=True)
-    rarity = models.CharField(
-        max_length=100, null=True, blank=True, choices=RARITY_CHOICES
-    )
+    rarity = models.CharField(max_length=100, null=True, blank=True, choices=RARITY_CHOICES)
     hp = models.IntegerField(null=True, blank=True)
-    card_type = models.CharField(
-        max_length=100, null=True, blank=True, choices=CARDTYPE_CHOICES
-    )
+    card_type = models.CharField(max_length=100, null=True, blank=True, choices=CARDTYPE_CHOICES)
     attack = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=250, null=True, blank=True)
-    weakness = models.CharField(max_length=250, null=True, blank=True)
-    card_number = models.IntegerField(null=True, blank=True)
+    weakness = models.CharField(max_length=100, null=True, blank=True)
+    card_number = models.CharField(max_length=4, null=True, blank=True)
     release_date = models.DateField(null=True, blank=True)
-    evolution_stage = models.CharField(max_length=250, null=True, blank=True)
+    evolution_stage = models.CharField(max_length=100, null=True, blank=True)
     abilities = models.CharField(max_length=250, null=True, blank=True)
-    
+
+    def __str__(self):
+        return self.name
+
 class Collection(BaseModel):
-    card = models.ForeignKey(PokemonCard, blank=True, null=True, on_delete=models.CASCADE)
-    trainer = models.ForeignKey(Trainer, blank=True, null=True, on_delete=models.CASCADE)
+    card = models.ForeignKey(PokemonCard, null=True, blank=True, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(Trainer, null=True, blank=True, on_delete=models.CASCADE)
     collection_date = models.DateField()
-    
