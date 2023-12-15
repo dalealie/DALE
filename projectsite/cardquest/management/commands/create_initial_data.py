@@ -63,4 +63,4 @@ class Command(BaseCommand):
         for collection in collections:
             collection.save()
 
-        self.stdout.write(self.style.SUCCESS('Successfully created Collection.'))
+        self.stdout.write(self.style.SUCCESS('Successfully created Collection.'))   
