@@ -12,4 +12,33 @@
 {% endblock %}
 
 {% block content %}
-{% endblock %}
+    <a href="{% url 'trainer-add' %}" class="add-btn">Add New Trainer</a><br>
+    <section class="trainers-container">
+        <table class="styled-table">
+            <tbody>
+                <tr>
+                    <th>Trainer Name</th>
+                    <th>Birthdate</th>
+                    <th>Location</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                {% for object in object_list %}
+                <tr>
+                    <td>{{ object.name }}</td>
+                    <td>{{ object.birthdate }}</td>
+                    <td>{{ object.location }}</td>
+                    <td>{{ object.email}} </td>
+                    <td>
+                        <a href="trainer_list/{{ object.id }}" class="edit-del-btn">Edit</a> |
+                        <a href="trainer_list/{{ object.id }}/delete" class="edit-del-btn">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <div>
+        {% include 'includes/pagination.html' %}
+    </div>
+{% endblock %} 
